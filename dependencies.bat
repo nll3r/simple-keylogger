@@ -1,24 +1,22 @@
 @echo off
 
-:: Verificar se o Python está instalado
+:: Check if Python is installed
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Python não está instalado. Instalando...
+    echo Python is not installed. Installing...
     start https://www.python.org/downloads/
     exit /b
 )
 
-:: Verificar se o pip está instalado
+:: Check if pip is installed
 python -m ensurepip --upgrade >nul 2>&1
 if %errorlevel% neq 0 (
-    echo pip não está instalado. Instalando...
+    echo pip is not installed. Installing...
     python -m ensurepip --upgrade
 )
 
-:: Instalar as bibliotecas necessárias
-echo Instalando bibliotecas necessárias...
+:: Install the required libraries
+echo Installing required libraries...
 pip install keyboard requests pygetwindow
 
-echo Bibliotecas instaladas com sucesso!
-
-
+echo Libraries installed successfully!
